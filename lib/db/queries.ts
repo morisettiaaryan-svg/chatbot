@@ -630,3 +630,193 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
     );
   }
 }
+
+export async function getDocumentsByUserId({
+  userId,
+  limit,
+  startingAfter,
+  endingBefore,
+}: {
+  userId: string;
+  limit: number;
+  startingAfter: string | null;
+  endingBefore: string | null;
+}) {
+  try {
+    const extendedLimit = limit + 1;
+
+    const query = (whereCondition?: SQL<unknown>) =>
+      db
+        .select()
+        .from(document)
+        .where(
+          whereCondition
+            ? and(whereCondition, eq(document.userId, userId))
+            : eq(document.userId, userId)
+        )
+        .orderBy(desc(document.createdAt))
+        .limit(extendedLimit);
+
+    let filteredDocuments: Document[] = [];
+
+    if (startingAfter) {
+      const [selectedDoc] = await db
+        .select()
+        .from(document)
+        .where(eq(document.id, startingAfter))
+        .limit(1);
+
+      if (!selectedDoc) {
+        throw new ChatbotError(
+          "not_found:database",
+          `Document with id ${startingAfter} not found`
+        );
+      }
+
+      filteredDocuments = await query(
+        gt(document.createdAt, selectedDoc.createdAt)
+      );
+    } else if (endingBefore) {
+      const [selectedDoc] = await db
+        .select()
+        .from(document)
+        .where(eq(document.id, endingBefore))
+        .limit(1);
+
+      if (!selectedDoc) {
+        throw new ChatbotError(
+          "not_found:database",
+          `Document with id ${endingBefore} not found`
+        );
+      }
+
+      filteredDocuments = await query(
+        lt(document.createdAt, selectedDoc.createdAt)
+      );
+    } else {
+      filteredDocuments = await query();
+    }
+
+    const hasMore = filteredDocuments.length > limit;
+
+    return {
+      documents: hasMore ? filteredDocuments.slice(0, limit) : filteredDocuments,
+      hasMore,
+    };
+  } catch (_error) {
+    throw new ChatbotError(
+      "bad_request:database",
+      "Failed to get documents by user id"
+    );
+  }
+}
+
+export async function updateSuggestion({
+  id,
+  isResolved,
+  suggestedText,
+}: {
+  id: string;
+  isResolved?: boolean;
+  suggestedText?: string;
+}) {
+  try {
+    const updates: Record<string, unknown> = {};
+    if (isResolved !== undefined) {
+      updates.isResolved = isResolved;
+    }
+    if (suggestedText !== undefined) {
+      updates.suggestedText = suggestedText;
+    }
+
+    const [updated] = await db
+      .update(suggestion)
+      .set(updates)
+      .where(eq(suggestion.id, id))
+      .returning();
+
+    if (!updated) {
+      throw new ChatbotError("not_found:database", "Suggestion not found");
+    }
+
+    return updated;
+  } catch (_error) {
+    if (_error instanceof ChatbotError) {
+      throw _error;
+    }
+    throw new ChatbotError(
+      "bad_request:database",
+      "Failed to update suggestion"
+    );
+  }
+}
+
+export async function deleteSuggestion({ id }: { id: string }) {
+  try {
+    const [deleted] = await db
+      .delete(suggestion)
+      .where(eq(suggestion.id, id))
+      .returning();
+
+    return deleted;
+  } catch (_error) {
+    throw new ChatbotError(
+      "bad_request:database",
+      "Failed to delete suggestion"
+    );
+  }
+}
+
+export async function deleteSuggestionsByDocumentId({
+  documentId,
+}: {
+  documentId: string;
+}) {
+  try {
+    return await db
+      .delete(suggestion)
+      .where(eq(suggestion.documentId, documentId))
+      .returning();
+  } catch (_error) {
+    throw new ChatbotError(
+      "bad_request:database",
+      "Failed to delete suggestions by document id"
+    );
+  }
+}
+
+export async function deleteDocumentById({ id }: { id: string }) {
+  try {
+    await db.delete(suggestion).where(eq(suggestion.documentId, id));
+
+    const [deleted] = await db
+      .delete(document)
+      .where(eq(document.id, id))
+      .returning();
+
+    return deleted;
+  } catch (_error) {
+    throw new ChatbotError(
+      "bad_request:database",
+      "Failed to delete document by id"
+    );
+  }
+}
+
+export async function getLatestDocumentById({ id }: { id: string }) {
+  try {
+    const [selectedDocument] = await db
+      .select()
+      .from(document)
+      .where(eq(document.id, id))
+      .orderBy(desc(document.createdAt))
+      .limit(1);
+
+    return selectedDocument;
+  } catch (_error) {
+    throw new ChatbotError(
+      "bad_request:database",
+      "Failed to get latest document by id"
+    );
+  }
+}

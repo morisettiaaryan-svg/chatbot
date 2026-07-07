@@ -21,6 +21,7 @@ import {
 import { type RequestHints, systemPrompt } from "@/lib/ai/prompts";
 import { getLanguageModel } from "@/lib/ai/providers";
 import { createDocument } from "@/lib/ai/tools/create-document";
+import { createImage } from "@/lib/ai/tools/create-image";
 import { editDocument } from "@/lib/ai/tools/edit-document";
 import { getWeather } from "@/lib/ai/tools/get-weather";
 import { requestSuggestions } from "@/lib/ai/tools/request-suggestions";
@@ -202,6 +203,7 @@ export async function POST(request: Request) {
               : [
                   "getWeather",
                   "createDocument",
+                  "createImage",
                   "editDocument",
                   "updateDocument",
                   "requestSuggestions",
@@ -220,6 +222,10 @@ export async function POST(request: Request) {
               session,
               dataStream,
               modelId: chatModel,
+            }),
+            createImage: createImage({
+              session,
+              dataStream,
             }),
             editDocument: editDocument({ dataStream, session }),
             updateDocument: updateDocument({

@@ -112,6 +112,15 @@ export function getMessageByErrorCode(errorCode: ErrorCode): string {
     case "bad_request:document":
       return "The request to create or update the document was invalid. Please check your input and try again.";
 
+    case "not_found:suggestions":
+      return "The requested suggestion was not found. Please check the suggestion ID and try again.";
+    case "forbidden:suggestions":
+      return "This suggestion belongs to another user. Please check the suggestion ID and try again.";
+    case "unauthorized:suggestions":
+      return "You need to sign in to manage suggestions. Please sign in and try again.";
+    case "bad_request:suggestions":
+      return "The request to update the suggestion was invalid. Please check your input and try again.";
+
     default:
       return "Something went wrong. Please try again later.";
   }
