@@ -27,6 +27,10 @@ const runMigrate = async () => {
 };
 
 runMigrate().catch((err) => {
+  if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND' || err.code === 'ETIMEDOUT') {
+    console.log("Database not available, skipping migrations");
+    process.exit(0);
+  }
   console.error("Migration failed");
   console.error(err);
   process.exit(1);

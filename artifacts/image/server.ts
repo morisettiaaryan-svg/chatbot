@@ -1,19 +1,18 @@
 import { smoothStream, streamText } from "ai";
-import { generateImage, type UIMessageStreamWriter } from "ai";
-import { gateway, imageModel } from "ai";
+import { generateImage } from "ai";
+import { gateway } from "ai";
 import { updateDocumentPrompt } from "@/lib/ai/prompts";
 import { createDocumentHandler } from "@/lib/artifacts/server";
-import type { ChatMessage } from "@/lib/types";
 
 export const imageDocumentHandler = createDocumentHandler<"image">({
   kind: "image",
-  onCreateDocument: async ({ title, dataStream, modelId: _modelId }) => {
+  onCreateDocument: async ({ title, dataStream }) => {
     let draftContent = "";
 
     try {
-      const model = imageModel(gateway, "gpt-image-1");
+      const model = gateway.imageModel("gpt-image-1");
 
-      const { fullStream } = generateImage({
+      const result = await generateImage({
         model,
         prompt: title,
         providerOptions: {
@@ -25,22 +24,14 @@ export const imageDocumentHandler = createDocumentHandler<"image">({
         },
       });
 
-      for await (const delta of fullStream) {
-        if (delta.type === "image-base64") {
-          draftContent = delta.imageBase64;
-          dataStream.write({
-            type: "data-imageDelta",
-            data: delta.imageBase64,
-            transient: true,
-          });
-        } else if (delta.type === "image-url") {
-          draftContent = delta.imageUrl;
-          dataStream.write({
-            type: "data-imageDelta",
-            data: delta.imageUrl,
-            transient: true,
-          });
-        }
+      if (result.images.length > 0) {
+        const image = result.images[0];
+        draftContent = image.base64;
+        dataStream.write({
+          type: "data-imageDelta",
+          data: image.base64,
+          transient: true,
+        });
       }
     } catch (error) {
       console.error("Image generation error:", error);
@@ -68,20 +59,15 @@ export const imageDocumentHandler = createDocumentHandler<"image">({
 
     return draftContent;
   },
-  onUpdateDocument: async ({
-    document,
-    description,
-    dataStream,
-    modelId: _modelId,
-  }) => {
+  onUpdateDocument: async ({ document, description, dataStream }) => {
     let draftContent = "";
 
     try {
-      const model = imageModel(gateway, "gpt-image-1");
+      const model = gateway.imageModel("gpt-image-1");
 
       const prompt = `${document.content}\n\nModification request: ${description}`;
 
-      const { fullStream } = generateImage({
+      const result = await generateImage({
         model,
         prompt,
         providerOptions: {
@@ -93,22 +79,14 @@ export const imageDocumentHandler = createDocumentHandler<"image">({
         },
       });
 
-      for await (const delta of fullStream) {
-        if (delta.type === "image-base64") {
-          draftContent = delta.imageBase64;
-          dataStream.write({
-            type: "data-imageDelta",
-            data: delta.imageBase64,
-            transient: true,
-          });
-        } else if (delta.type === "image-url") {
-          draftContent = delta.imageUrl;
-          dataStream.write({
-            type: "data-imageDelta",
-            data: delta.imageUrl,
-            transient: true,
-          });
-        }
+      if (result.images.length > 0) {
+        const image = result.images[0];
+        draftContent = image.base64;
+        dataStream.write({
+          type: "data-imageDelta",
+          data: image.base64,
+          transient: true,
+        });
       }
     } catch (error) {
       console.error("Image regeneration error:", error);

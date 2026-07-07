@@ -1,0 +1,124 @@
+
+> chatbot@3.1.0 dev /workspace/project/chatbot
+> next dev --turbo
+
+▲ Next.js 16.2.0 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.2.9.159:3000
+- Environments: .env.local
+✓ Ready in 343ms
+- Cache Components enabled
+- Experiments (use with caution):
+  ✓ appNewScrollHandler
+  ✓ cachedNavigations
+  ✓ inlineCss
+  ✓ prefetchInlining
+
+[31m[auth][error][0m CallbackRouteError: Read more at https://errors.authjs.dev#callbackrouteerror
+[31m[auth][cause][0m: Error: An error occurred while executing a database query.
+    at createGuestUser (/workspace/project/chatbot/.next/dev/server/chunks/[root-of-the-server]__06c6ocm._.js:645:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.authorize (/workspace/project/chatbot/.next/dev/server/chunks/[root-of-the-server]__06c6ocm._.js:1092:37)
+    at async Module.callback (/workspace/project/chatbot/.next/dev/server/chunks/0pn2_@auth_core_084q1gk._.js:4036:39)
+    at async AuthInternal (/workspace/project/chatbot/.next/dev/server/chunks/0pn2_@auth_core_084q1gk._.js:4869:24)
+    at async Auth (/workspace/project/chatbot/.next/dev/server/chunks/0pn2_@auth_core_084q1gk._.js:5091:34)
+    at async signIn (/workspace/project/chatbot/.next/dev/server/chunks/node_modules__pnpm_0sr_axk._.js:681:17)
+    at async AppRouteRouteModule.do (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40732)
+    at async AppRouteRouteModule.handle (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47861)
+    at async responseGenerator (/workspace/project/chatbot/.next/dev/server/chunks/11vb_next_0dfaxt_._.js:18289:38)
+    at async AppRouteRouteModule.handleResponse (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)
+    at async handleResponse (/workspace/project/chatbot/.next/dev/server/chunks/11vb_next_0dfaxt_._.js:18352:32)
+    at async Module.handler (/workspace/project/chatbot/.next/dev/server/chunks/11vb_next_0dfaxt_._.js:18403:13)
+    at async DevServer.renderToResponseWithComponentsImpl (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/base-server.js:1454:9)
+    at async DevServer.renderPageComponent (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/base-server.js:1506:24)
+    at async DevServer.renderToResponseImpl (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/base-server.js:1556:32)
+    at async DevServer.pipeImpl (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/base-server.js:1043:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/next-server.js:338:17)
+    at async DevServer.handleRequestImpl (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/base-server.js:934:17)
+    at async /workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/dev/next-dev-server.js:394:20
+    at async Span.traceAsyncFn (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/trace/trace.js:164:20)
+    at async DevServer.handleRequest (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/dev/next-dev-server.js:390:24)
+    at async invokeRender (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/lib/router-server.js:253:21)
+    at async handleRequest (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/lib/router-server.js:452:24)
+    at async requestHandlerImpl (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/lib/router-server.js:501:13)
+    at async Server.requestListener (/workspace/project/chatbot/node_modules/.pnpm/next@16.2.0_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_babel-plugin-react-compile_278fa6c12229fd0a8188fd350e5e5f66/node_modules/next/dist/server/lib/start-server.js:225:13)
+[31m[auth][details][0m: {
+  "0": "F",
+  "1": "a",
+  "2": "i",
+  "3": "l",
+  "4": "e",
+  "5": "d",
+  "6": " ",
+  "7": "t",
+  "8": "o",
+  "9": " ",
+  "10": "c",
+  "11": "r",
+  "12": "e",
+  "13": "a",
+  "14": "t",
+  "15": "e",
+  "16": " ",
+  "17": "g",
+  "18": "u",
+  "19": "e",
+  "20": "s",
+  "21": "t",
+  "22": " ",
+  "23": "u",
+  "24": "s",
+  "25": "e",
+  "26": "r",
+  "provider": "guest"
+}
+⨯ Error [CallbackRouteError]: Read more at https://errors.authjs.dev#callbackrouteerror
+    at ignore-listed frames {
+  type: 'CallbackRouteError',
+  kind: 'error',
+  [cause]: {
+    '0': 'F',
+    '1': 'a',
+    '2': 'i',
+    '3': 'l',
+    '4': 'e',
+    '5': 'd',
+    '6': ' ',
+    '7': 't',
+    '8': 'o',
+    '9': ' ',
+    '10': 'c',
+    '11': 'r',
+    '12': 'e',
+    '13': 'a',
+    '14': 't',
+    '15': 'e',
+    '16': ' ',
+    '17': 'g',
+    '18': 'u',
+    '19': 'e',
+    '20': 's',
+    '21': 't',
+    '22': ' ',
+    '23': 'u',
+    '24': 's',
+    '25': 'e',
+    '26': 'r',
+    err: Error: An error occurred while executing a database query.
+        at createGuestUser (lib/db/queries.ts:70:11)
+        at async Object.authorize (app/(auth)/auth.ts:76:29)
+      68 |     });
+      69 |   } catch (_error) {
+    > 70 |     throw new ChatbotError(
+         |           ^
+      71 |       "bad_request:database",
+      72 |       "Failed to create guest user"
+      73 |     ); {
+      type: 'bad_request',
+      surface: 'database',
+      statusCode: 400,
+      [cause]: 'Failed to create guest user'
+    },
+    provider: 'guest'
+  }
+}

@@ -78,7 +78,6 @@ export async function GET(request: Request) {
             kind: document.kind,
             content: document.content,
             createdAt: document.createdAt,
-            updatedAt: document.updatedAt,
           },
           null,
           2

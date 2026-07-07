@@ -23,6 +23,7 @@ import {
   chat,
   type DBMessage,
   document,
+  type Document,
   message,
   type Suggestion,
   stream,
